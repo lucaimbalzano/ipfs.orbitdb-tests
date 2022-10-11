@@ -1,0 +1,24 @@
+{
+  "name": "ipfs.orbitdb-tests",
+  "version": "1.0.0",
+  "description": "ipfs.orbitdb-tests",
+  "main": "newpieceplease.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucaimbalzano/ipfs.orbitdb-tests.git"
+  },
+  "keywords": [],
+  "author": "Luca Imbalzano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lucaimbalzano/ipfs.orbitdb-tests/issues"
+  },
+  "homepage": "https://github.com/lucaimbalzano/ipfs.orbitdb-tests#readme",
+  "dependencies": {
+    "ipfs": "^0.64.2",
+    "orbit-db": "^0.28.7"
+  }
+}
