@@ -47,11 +47,25 @@ class NewPiecePlease {
             // which field to index our database
             indexBy: 'hash',
         }
+        // creation of the db
         this.pieces = await this.orbitdb.docstore('pieces', docStoreOptions)
+        //retrieves all of the values via their content addresses and loads the content into memory
+        await this.pieces.load()
         if(this.onready) this.onready();
     }
 
+    async addNewPiece(hash, instrument = 'Piano') {
+        // const existingPiece = this.getPieceByHash(hash)
+       //    if (existingPiece) {
+       // await this.updatePieceByHash(hash, instrument)
+        //        return
+        //    }    
+           const cid = await this.pieces.put({ hash, instrument })
+           return cid
+       }
 }
+
+
 
 
 

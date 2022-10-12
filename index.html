@@ -12,7 +12,12 @@
         <div>
             <b> orbitdb.pieces.id:  </b><p style="display:inline" id="id-orbitdb-pieces">LOADING-VALUE</p>
          </div>
-        
+         <div>
+            <b> ipfs.cid:  </b><p style="display:inline" id="ipfs-cid">LOADING-VALUE</p>
+         </div>
+         <div>
+            <b> dag.get(cid).content.value.payload:  </b><p  id="dag.get(cid).content.value.payload">LOADING-VALUE</p>
+         </div>
 
     </body>
 		<script src="https://unpkg.com/ipfs@0.55.1/dist/index.min.js"></script>
@@ -23,7 +28,26 @@
             var identityIdOrbitDb;
             var piecesIdOrbitDb;
 
-            NPP.onready = () => {
+
+            NPP.onready = async() => {
+
+                let cid = await NPP.addNewPiece("QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ")
+                cid = new NPP.Ipfs.CID(cid)
+                if(cid){
+                    console.log('IPFS.CID: '+cid)    
+                    document.getElementById('ipfs-cid').innerHTML = cid;
+                }else{
+                    document.getElementById('ipfs-cid').innerHTML = 'ERROR'
+                }
+                //take cid and return content
+                const content = await NPP.node.dag.get(cid)
+                if(content){
+                    console.log('dag.get(cid).content.value.payload: '+JSON.stringify(content.value.payload, null, "\t"))    
+                    document.getElementById('dag.get(cid).content.value.payload').innerHTML = JSON.stringify(content.value.payload, null, "\t");
+                }else{
+                    document.getElementById('dag.get(cid).content.value.payload').innerHTML = 'ERROR'
+                }
+
                 if(NPP.orbitdb.identity.id){
                     console.log('ORBITDB.IDENTITY.ID: '+NPP.orbitdb.identity.id)
                     identityIdOrbitDb = NPP.orbitdb.identity.id;
@@ -39,11 +63,10 @@
                 }else{
                     document.getElementById('id-orbitdb-pieces').innerHTML = 'ERROR'
                 }
-                
-
                 // (IDofYourNodeIPFS)multihash:038c00d5bb3be3342b2c40ed3d80f5e6d2651731e310c3053aa08f4a359765954b
                 //                             038c00d5bb3be3342b2c40ed3d80f5e6d2651731e310c3053aa08f4a359765954b
             }
+        
             NPP.create()
        	</script>
 </html>     
