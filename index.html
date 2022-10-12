@@ -31,6 +31,8 @@
 
             NPP.onready = async() => {
 
+                console.log('ALL PIECES: '+JSON.stringify(NPP.getAllPieces(), null, "\t"));
+
                 let cid = await NPP.addNewPiece("QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ")
                 cid = new NPP.Ipfs.CID(cid)
                 if(cid){
@@ -39,6 +41,8 @@
                 }else{
                     document.getElementById('ipfs-cid').innerHTML = 'ERROR'
                 }
+              
+              
                 //take cid and return content
                 const content = await NPP.node.dag.get(cid)
                 if(content){
@@ -48,6 +52,8 @@
                     document.getElementById('dag.get(cid).content.value.payload').innerHTML = 'ERROR'
                 }
 
+              
+              
                 if(NPP.orbitdb.identity.id){
                     console.log('ORBITDB.IDENTITY.ID: '+NPP.orbitdb.identity.id)
                     identityIdOrbitDb = NPP.orbitdb.identity.id;
@@ -56,6 +62,8 @@
                     document.getElementById('id-orbitdb-identity').innerHTML = 'ERROR'
                 }
 
+              
+              
                 if(NPP.pieces.id){
                     console.log('ORBITDB.PIECES.ID: '+NPP.pieces.id)
                     piecesIdOrbitDb = NPP.pieces.id;
@@ -63,8 +71,16 @@
                 }else{
                     document.getElementById('id-orbitdb-pieces').innerHTML = 'ERROR'
                 }
-                // (IDofYourNodeIPFS)multihash:038c00d5bb3be3342b2c40ed3d80f5e6d2651731e310c3053aa08f4a359765954b
-                //                             038c00d5bb3be3342b2c40ed3d80f5e6d2651731e310c3053aa08f4a359765954b
+
+
+
+                const cidToUpdate = await NPP.updatePieceByHash("QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ", "Harpsichord")
+                console.log('CID UPDATED: '+cidToUpdate)
+
+                const cidToDelete = await NPP.deletePieceByHash("QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ")
+                const contentToDelete = await NPP.node.dag.get(new NPP.Ipfs.CID(cidToDelete))
+                console.log('DELETE OPERATION: '+JSON.stringify(contentToDelete.value.payload, null, "\t"))
+                
             }
         
             NPP.create()
