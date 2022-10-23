@@ -1,25 +1,85 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	</head>
 	<body>
-        <h1>main:ipfs.orbitdb-tests</h1>
-        <p><i>@lucaimbalzano</i></p>
-        <b>repository: </b><a href="https://github.com/lucaimbalzano/ipfs.orbitdb-tests.git">link here</a>.
-        <div>
-           <b> orbitdb.identity.id:  </b><p style="display:inline" id="id-orbitdb-identity">LOADING-VALUE</p>
+        <h1 class="pt-5 m-5">
+            <object data="./img/ipfs.svg" width="50" height="50"> </object>
+            main:ipfs.orbitdb-tests
+        </h1>
+        <div class="m-5">
+            <p><i>@lucaimbalzano</i></p>
+            <b>repository: </b><a href="https://github.com/lucaimbalzano/ipfs.orbitdb-tests.git">link here</a>.
+            <div>
+            <b> orbitdb.identity.id:  </b><p style="display:inline" id="id-orbitdb-identity">LOADING-VALUE</p>
+            </div>
+            <div>
+                <b> orbitdb.pieces.id:  </b><p style="display:inline" id="id-orbitdb-pieces">LOADING-VALUE</p>
+            </div>
+            <div>
+                <b> ipfs.cid:  </b><p style="display:inline" id="ipfs-cid">LOADING-VALUE</p>
+            </div>
+            <div>
+                <b> dag.get(cid).content.value.payload:  </b><p  id="dag.get(cid).content.value.payload">LOADING-VALUE</p>
+            </div>
         </div>
-        <div>
-            <b> orbitdb.pieces.id:  </b><p style="display:inline" id="id-orbitdb-pieces">LOADING-VALUE</p>
-         </div>
-         <div>
-            <b> ipfs.cid:  </b><p style="display:inline" id="ipfs-cid">LOADING-VALUE</p>
-         </div>
-         <div>
-            <b> dag.get(cid).content.value.payload:  </b><p  id="dag.get(cid).content.value.payload">LOADING-VALUE</p>
-         </div>
+        
+         
+        <div class="m-5 p-1">
+                <h3> CRUD on OrbitDB 
+                    <img src="./img/orbitdb.png" width="50px" height="50px"/>
+                </h3>
 
+            <div class="m-4">
+                <div class="shadow p-3 mb-5 rounded w-50">
+                    <span> EXAMPLE CID: QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ</span>
+                </div>
+                <div class="input-group mb-3 w-50">
+                    <span class="input-group-text" id="basic-addon1">CID</span>
+                    <input type="text" class="form-control" placeholder="CID ADD" aria-label="CID" id="cid" aria-describedby="basic-addon1">
+                </div>
+                <button type="button" class="btn btn-outline-primary" onClick="addNewPieceInput(document.getElementById('cid').value)" />Add</button>
+            </div>
+
+            <div class="m-4">
+                <div class="shadow p-3 mb-5 rounded w-50">
+                    <span> EXAMPLES</span>
+                    <span>  CID: QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ</span>
+                    <span>HASH: Harpsichord</span>
+                </div>
+
+                <div class="input-group mb-3 w-75">
+                    <span class="input-group-text" id="basic-addon1">CID</span>
+                    <input type="text" class="form-control" id="instrument_update_input" placeholder="INSTRUMENT UPDATE" aria-label="CID" aria-describedby="basic-addon1">
+                    <input type="text" class="form-control" id="hash_update_input" placeholder="HASH" aria-label="HASH" aria-describedby="basic-addon1">
+                </div>
+                <button type="button" class="btn btn-outline-warning" onClick="updatePieceInput(document.getElementById('hash_update_input').value,document.getElementById('instrument_update_input').value)">
+                    Edit</button>
+            </div>
+
+            <div class="m-4">
+                <div class="input-group mb-3 w-50">
+                    <span class="input-group-text" id="basic-addon1">CID</span>
+                    <input type="text" class="form-control" id="hash_delete_input" placeholder="CID DELETE" aria-label="CID DELETE" aria-describedby="basic-addon1">
+                </div>
+                <button type="button" class="btn btn-outline-danger" onclick="deletePieceInput(document.getElementById('hash_delete_input').value)">Delete</button>
+            </div>
+
+            <div class="m-4">
+                <div class="input-group mb-3 w-25">
+                    <span class="input-group-text" id="basic-addon1">CID</span>
+                    <input type="text" class="form-control" placeholder="CID GET" aria-label="CID GET" id="cid_get_input" aria-describedby="basic-addon1">
+                </div>
+                <button type="button" class="btn btn-outline-success" onClick="getPieceInput(document.getElementById('cid_get_input').value)">Read</button>
+            </div>
+            <table id="table_id"  class='table table-hover'></table>
+        </div>
+        
     </body>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 		<script src="https://unpkg.com/ipfs@0.55.1/dist/index.min.js"></script>
 		<script src="https://unpkg.com/orbit-db@0.26.1/dist/orbitdb.min.js"></script>
         <script src="./newpieceplease.js"></script>
@@ -27,13 +87,13 @@
             console.log('#STARTED')
             var identityIdOrbitDb;
             var piecesIdOrbitDb;
+            var cid_input;
+            var cid_get_input;
+      
 
-
-            NPP.onready = async() => {
-
-                console.log('ALL PIECES: '+JSON.stringify(NPP.getAllPieces(), null, "\t"));
-
-                let cid = await NPP.addNewPiece("QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ")
+            //ADD
+            async function addNewPieceInput(cid_input) {
+                let cid = await NPP.addNewPiece(cid_input)
                 cid = new NPP.Ipfs.CID(cid)
                 if(cid){
                     console.log('IPFS.CID: '+cid)    
@@ -41,19 +101,74 @@
                 }else{
                     document.getElementById('ipfs-cid').innerHTML = 'ERROR'
                 }
-              
-              
+            }
+
+
+            //GET
+            async function getPieceInput(cid_get_input) {
                 //take cid and return content
-                const content = await NPP.node.dag.get(cid)
+                const content = await NPP.node.dag.get(cid_get_input)
                 if(content){
                     console.log('dag.get(cid).content.value.payload: '+JSON.stringify(content.value.payload, null, "\t"))    
                     document.getElementById('dag.get(cid).content.value.payload').innerHTML = JSON.stringify(content.value.payload, null, "\t");
                 }else{
                     document.getElementById('dag.get(cid).content.value.payload').innerHTML = 'ERROR'
                 }
+            }
 
-              
-              
+            //UPDATE
+            async function updatePieceInput(hash_update_input, instrument_update_input){
+                const cidToUpdate = await NPP.updatePieceByHash(hash_update_input,instrument_update_input)
+                console.log('CID piece UPDATED: '+cidToUpdate)
+            }
+
+            //DELETE
+            async function deletePieceInput(hash_delete_input){
+                const cidToDelete = await NPP.deletePieceByHash(hash_delete_input)
+                const contentToDelete = await NPP.node.dag.get(new NPP.Ipfs.CID(cidToDelete))
+                console.log('DELETE OPERATION: '+JSON.stringify(contentToDelete.value.payload, null, "\t"))
+            }
+            
+
+            async function loadTablePieces(){
+                console.log('ALL PIECES: '+JSON.stringify(NPP.getAllPieces(), null, "\t"));
+                pieces = NPP.getAllPieces()
+                str ="<th>num</th>"
+                    +   "<th>hash</th>"
+                    +   "<th>instrument</th>";
+                    for(let i = 0; i < pieces.length; i++){
+                            str+= "<tr><td>"+i+"</td><td>"+JSON.stringify(pieces[i].hash)+"</td><td>"+JSON.stringify(pieces[i].instrument)+"</td></tr>";
+                        }
+                    // str+= "</table>"
+                    document.getElementById("table_id").innerHTML = str
+                    // return str
+            }
+
+            async function initPiecesDB(){
+                addNewPieceInput("QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ")
+                addNewPieceInput("QmRn99VSCVdC693F6H4zeS7Dz3UmaiBiSYDf6zCEYrWynq")
+                addNewPieceInput("QmdzDacgJ9EQF9Z8G3L1fzFwiEu255Nm5WiCey9ntrDPSL")
+                addNewPieceInput("QmcFUvG75QTMok9jrteJzBUXeoamJsuRseNuDRupDhFwA2")
+                addNewPieceInput("QmTjszMGLb5gKWAhFZbo8b5LbhCGJkgS8SeeEYq3P54Vih")
+                addNewPieceInput("QmNfQhx3WvJRLMnKP5SucMRXEPy9YQ3V1q9dDWNC6QYMS3")
+                addNewPieceInput("QmQS4QNi8DCceGzKjfmbBhLTRExNboQ8opUd988SLEtZpW")
+                addNewPieceInput("QmcJPfExkBAZe8AVGfYHR7Wx4EW1Btjd5MXX8EnHCkrq54")
+                addNewPieceInput("Qmb1iNM1cXW6e11srUvS9iBiGX4Aw5dycGGGDPTobYfFBr")
+                addNewPieceInput("QmYPpj6XVNPPYgwvN4iVaxZLHy982TPkSAxBf2rzGHDach")
+                addNewPieceInput("QmefKrBYeL58qyVAaJoGHXXEgYgsJrxo763gRRqzYHdL6o")
+            }
+
+            NPP.onready = async() => {
+
+            
+               await initPiecesDB() 
+               await loadTablePieces()
+                
+                // cid_input = document.getElementById('cid').innerHTML
+                await addNewPieceInput(cid_input)
+                await getPieceInput(cid_get_input)
+
+ 
                 if(NPP.orbitdb.identity.id){
                     console.log('ORBITDB.IDENTITY.ID: '+NPP.orbitdb.identity.id)
                     identityIdOrbitDb = NPP.orbitdb.identity.id;
@@ -73,13 +188,6 @@
                 }
 
 
-
-                const cidToUpdate = await NPP.updatePieceByHash("QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ", "Harpsichord")
-                console.log('CID UPDATED: '+cidToUpdate)
-
-                const cidToDelete = await NPP.deletePieceByHash("QmNR2n4zywCV61MeMLB6JwPueAPqheqpfiA4fLPMxouEmQ")
-                const contentToDelete = await NPP.node.dag.get(new NPP.Ipfs.CID(cidToDelete))
-                console.log('DELETE OPERATION: '+JSON.stringify(contentToDelete.value.payload, null, "\t"))
                 
             }
         

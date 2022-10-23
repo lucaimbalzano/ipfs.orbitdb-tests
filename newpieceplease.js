@@ -87,7 +87,7 @@ class NewPiecePlease {
     }
 
     getPieceByHash(hash){
-        console.log('this.getPieceByHash: '+JSON.stringify(this.pieces.get(hash), null, "\t"))
+        // console.log('this.getPieceByHash: '+JSON.stringify(this.pieces.get(hash), null, "\t"))
         const singlePiece = this.pieces.get(hash)[0]
         return singlePiece;
     }
