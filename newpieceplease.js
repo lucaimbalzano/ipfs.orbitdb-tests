@@ -1,3 +1,6 @@
+// ALL THE GLORY TO GOD
+
+
 class NewPiecePlease {
     constructor(Ipfs, OrbitDB){
         this.Ipfs = Ipfs
