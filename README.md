@@ -12,3 +12,5 @@ $ node
 ``
 '>' const NPP = require('./newpieceplease')
 ``
+
+preview the index.html to your default browser

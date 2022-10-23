@@ -7,11 +7,11 @@ class NewPiecePlease {
         this.OrbitDB = OrbitDB
     }
 
-// Settings Node Ipfs Creation:
-// preload: help load balance gloabl network, prevent DDos
-// repo: default for browser is './jsipfs'
-// EXPEIMENTAL pubsub: is required for OrbitDB usage
-// config: peers that are loaded on instantiation
+    // Settings Node Ipfs Creation:
+    // preload: help load balance gloabl network, prevent DDos
+    // repo: default for browser is './jsipfs'
+    // EXPEIMENTAL pubsub: is required for OrbitDB usage
+    // config: peers that are loaded on instantiation
     async create(){
         this.node = await this.Ipfs.create({
             preload: { enabled: false},
@@ -26,16 +26,16 @@ class NewPiecePlease {
         this._init()
     }
 
-// Settings Node OrbitDB Creation:
-// accessController = ACL 
-// write: access to the database to write ACL by OrbitDB instances identified by id
-//pieces.id is divided by 3 parts [example:/orbitdb/zdpuB3VvBJHqYCocN4utQrpBseHou88mq2DLh7bUkWviBQSE3/pieces]:
-// 1) /xxx -> is the protocol -> telling this is an orbitdb
-// 2) Content ID (CID) of the db manifest, it contains:
-        //-  The access control list of the database
-        //-  The type of the database
-        //-  The name of the database
-// 3) final part of the multiadress is the name you provided 'pieces'
+    // Settings Node OrbitDB Creation:
+    // accessController = ACL 
+    // write: access to the database to write ACL by OrbitDB instances identified by id
+    //pieces.id is divided by 3 parts [example:/orbitdb/zdpuB3VvBJHqYCocN4utQrpBseHou88mq2DLh7bUkWviBQSE3/pieces]:
+    // 1) /xxx -> is the protocol -> telling this is an orbitdb
+    // 2) Content ID (CID) of the db manifest, it contains:
+            //-  The access control list of the database
+            //-  The type of the database
+            //-  The name of the database
+    // 3) final part of the multiadress is the name you provided 'pieces'
     async _init(){
         this.orbitdb = await this.OrbitDB.createInstance(this.node)
 
